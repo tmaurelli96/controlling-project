@@ -141,3 +141,10 @@ Questo progetto rappresenta un laboratorio personale per consolidare competenze 
 ### 🇬🇧 English
 
 This project serves as a structured laboratory to consolidate controlling and financial analysis skills, integrating data modeling and managerial reasoning into a coherent analytical framework.
+
+## Data Model
+
+The project is based on a relational structure designed to simulate a real controlling environment.
+
+See full data model here:
+→ docs/data_model.md
