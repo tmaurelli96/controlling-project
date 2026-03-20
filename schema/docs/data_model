@@ -1,0 +1,18 @@
+# Data Model Overview
+
+The data model represents a simplified company structure:
+
+- Business Units → strategic level
+- Cost Centers → cost responsibility
+- Projects → operational execution
+- Suppliers → external cost drivers
+
+Relationships:
+
+Business Unit
+  ↓
+Cost Center
+  ↓
+Project
+  ↓
+Costs / Purchase Orders
