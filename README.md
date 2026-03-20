@@ -147,4 +147,5 @@ This project serves as a structured laboratory to consolidate controlling and fi
 The project is based on a relational structure designed to simulate a real controlling environment.
 
 See full data model here:
-→ docs/data_model.md
+→ docs/data_model
+
