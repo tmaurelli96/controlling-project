@@ -1,18 +1,75 @@
 -- =========================
--- BASIC QUERIES
+-- 1. TOTAL COST PER PROJECT
 -- =========================
 
--- View all projects
-SELECT * FROM projects;
-
-
--- =========================
--- ANALYSIS QUERIES
--- =========================
-
--- Total cost per project
-SELECT p.project_name AS project, SUM(ac.amount) AS total_cost
+SELECT 
+    p.project_name AS project,
+    SUM(ac.amount) AS total_actual_cost
 FROM actual_costs ac
 JOIN projects p ON ac.project_id = p.project_id
 GROUP BY p.project_name
-ORDER BY total_cost DESC;
+ORDER BY total_actual_cost DESC;
+
+
+-- =========================
+-- 2. BUDGET VS ACTUAL
+-- =========================
+
+SELECT 
+    p.project_name AS project,
+    p.budget,
+    SUM(ac.amount) AS actual_cost,
+    (SUM(ac.amount) - p.budget) AS variance
+FROM projects p
+LEFT JOIN actual_costs ac ON p.project_id = ac.project_id
+GROUP BY p.project_name, p.budget
+ORDER BY variance DESC;
+
+
+-- =========================
+-- 3. VARIANCE PERCENTAGE
+-- =========================
+
+SELECT 
+    p.project_name AS project,
+    p.budget,
+    SUM(ac.amount) AS actual_cost,
+    ROUND(
+        (SUM(ac.amount) - p.budget) / p.budget * 100, 
+        2
+    ) AS variance_pct
+FROM projects p
+LEFT JOIN actual_costs ac ON p.project_id = ac.project_id
+GROUP BY p.project_name, p.budget
+ORDER BY variance_pct DESC;
+
+-- =========================
+-- 4. MONTHLY COST TREND
+-- =========================
+
+SELECT 
+    p.project_name AS project,
+    DATE_TRUNC('month', ac.cost_date) AS month,
+    SUM(ac.amount) AS monthly_cost
+FROM actual_costs ac
+JOIN projects p ON ac.project_id = p.project_id
+GROUP BY p.project_name, DATE_TRUNC('month', ac.cost_date)
+ORDER BY project, month;
+
+
+-- =========================
+-- 5. TOP 3 MOST EXPENSIVE PROJECTS
+-- =========================
+
+SELECT 
+    p.project_name,
+    SUM(ac.amount) AS total_cost
+FROM actual_costs ac
+JOIN projects p ON ac.project_id = p.project_id
+GROUP BY p.project_name
+ORDER BY total_cost DESC
+LIMIT 3;
+
+FROM actual_costs ac
+GROUP BY ac.category
+ORDER BY percentage_share DESC;
